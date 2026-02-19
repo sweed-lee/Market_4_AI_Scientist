@@ -8,7 +8,8 @@ from typing import List, Dict, Any
 _dialogs: List[Dict[str, Any]] = []
 
 
-def add_dialog(prompt: str, response: str, agent_name: str, agent_type: str):
+def add_dialog(prompt: str, response: str, agent_name: str, agent_type: str, 
+               round_num: int = None, dialog_type: str = None):
     """
     Add a prompt-response pair to the dialog log.
     
@@ -17,13 +18,20 @@ def add_dialog(prompt: str, response: str, agent_name: str, agent_type: str):
         response: The generated response
         agent_name: Name of the agent
         agent_type: Type of agent ('Founder' or 'Investor')
+        round_num: Optional round number (major round)
+        dialog_type: Optional dialog type (e.g., 'initial', 'iteration', 'round1_scoring', 'round2_evaluation')
     """
-    _dialogs.append({
+    dialog_entry = {
         'agent_name': agent_name,
         'agent_type': agent_type,
         'prompt': prompt,
         'response': response
-    })
+    }
+    if round_num is not None:
+        dialog_entry['round_num'] = round_num
+    if dialog_type:
+        dialog_entry['dialog_type'] = dialog_type
+    _dialogs.append(dialog_entry)
 
 
 def get_all_dialogs() -> List[Dict[str, Any]]:

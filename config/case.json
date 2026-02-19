@@ -1,0 +1,14 @@
+[
+    {
+        "task":"Implement Dijkstra’s shortest path algorithm \nInput: A weighted directed graph (adjacency list / adjacency matrix), source vertex s \nOutput: dist[] array and prev[] predecessor array \nRequirements: \nSupport unreachable vertices (represented by INF) \nOptionally support multi-source initialization \nUse a priority queue (min-heap) for the implementation",
+        "cost": 800
+    },
+    {
+        "task":"Implement a simple in-memory Key-Value storage service (single-node) \nAPIs (assuming HTTP/REST): \nPUT /kv/{key}: set value (JSON) \nGET /kv/{key}: get value \nDELETE /kv/{key}: delete key \nRequirements: \nUse an in-memory Map for storage \nBasic error code design (404/400/500) \nSimple logging output (access logs) \n",
+        "cost": 1100
+    },
+    {
+        "task":"Design a web frontend component: Searchable Dropdown \nFeatures: \nWhen text is entered into the input box, a filtered list of options appears below. \nAfter selecting an option, the dropdown collapses and the selected value is displayed. \nRequirements: \nKeyboard interaction: use the Up and Down arrow keys to navigate options, Enter key to confirm selection. \nSupport displaying “No matches” when there are no results. \nProvide a callback for when the selected value changes: \nonChange(value) \n",
+        "cost":1300
+    }
+]

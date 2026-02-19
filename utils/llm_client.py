@@ -65,13 +65,13 @@ class LLMClient:
         Returns:
             Generated text response
         """
-        print(prompt)
+        # print(prompt)
         response = self.client.chat.completions.create(
             model=model or self.model,
             messages=[{"role": "user", "content": prompt}],
             **kwargs
         )
-        print(response.choices[0].message.content)
+        # print(response.choices[0].message.content)
         return response.choices[0].message.content
     
     def __repr__(self) -> str:
