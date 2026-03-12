@@ -113,6 +113,8 @@ Previous round context (for you):
 Previous round context (for other competitors):
 {others_prev_round}
 
+You should now apply these history to redesign your proposal for the next investment round, as the previous round's funding will not carry over.
+
 **IMPORTANT: Use [THINKING], [/THINKING], [TITLE], [/TITLE], [BUDGET], [/BUDGET], [PROPOSAL], [/PROPOSAL], [PROTOTYPE], [/PROTOTYPE] to mark the beginning and end of your thinking, title, budget, proposal, and prototype. Format your response EXACTLY as follows:**
 
 [THINKING]
@@ -195,6 +197,7 @@ IMPORTANT:
 - Keep the evaluation short (3-6 sentences / one short paragraph).
 - Do NOT include any explicit investment recommendation words such as "strongly invest", "invest moderately", "small exploratory investment", "do not invest", "pass", or anything similar.
 - Do NOT include any numeric investment suggestions (no token numbers).
+- Past history is for reference only, and past investment amounts will not carry over to this round.
 - Output MUST follow the exact tagged format below.
 
 Founder to evaluate:
@@ -221,6 +224,7 @@ Your evaluation criteria: {criteria}
 Your investment philosophy: {philosophy}
 
 {investment_history}
+This history is for reference only, and past investment amounts will not carry over to this round.
 
 This is STEP 2 (allocation) in investment round {current_investment_round} of this major round.
 You have a budget of {budget} llm tokens to allocate across the selected candidates.
