@@ -199,6 +199,7 @@ CONFIG_25_FOUNDERS_5GROUPS_TASK_ALIGNED = {
         "budget_tolerance_percent": 0.2,
         "max_investment_rounds": 3,
         "max_allocation_retries": 3,
+        "step2_debate_rounds": 2,
         "enable_checkpoints": True,
         "checkpoint_dir": "checkpoints_strategy_5groups",
         "base_url": "http://35.220.164.252:3888/v1/",

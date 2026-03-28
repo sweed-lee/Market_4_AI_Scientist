@@ -7,6 +7,67 @@
 python main_10_founders.py
 ```
 
+### Current Runtime Notes
+
+This section reflects the current code behavior and should be treated as the source of truth if it conflicts with older parts of this README.
+
+- Entry script:
+  - `main_10_founders.py` currently loads `config/config_25_founders_6groups_investor_counts.py`
+  - The active config object is `CONFIG_25_FOUNDERS_6GROUPS_INVESTOR_COUNTS`
+- Current outputs:
+  - `results_25_founders_6groups_investor_counts.json`
+  - `dialogs_25_founders_6groups_investor_counts.json`
+
+#### Current Investor Step-2 Structure
+
+Within each major round:
+
+1. `step1`: each investor evaluates visible founders once and caches score/advice.
+2. `step2`: each investment round runs a debate-style allocation process inside each investor group.
+
+The current step-2 flow is:
+
+- debate round 1: initial allocation
+- debate round 2..N: discussion-based revision rounds
+- after the final debate round: use that round's allocation as the group's planned investment for this investment round
+
+Important semantics:
+
+- `system.step2_debate_rounds` means the total number of debate subrounds, including the initial allocation subround
+- Example:
+  - `step2_debate_rounds = 1`: initial allocation only
+  - `step2_debate_rounds = 2`: initial allocation + 1 discussion round
+  - `step2_debate_rounds = 3`: initial allocation + 2 discussion rounds
+- If an investor group has only 1 investor, the code skips discussion rounds and only runs the initial allocation subround
+- If a step-2 subround returns an invalid allocation, the code retries up to `system.max_allocation_retries`
+
+During a discussion subround, each investor sees:
+
+- their own previous view, explicitly marked as `[THIS WAS YOUR PREVIOUS VIEW]`
+- other investors' previous views in the same group
+- for each investor view:
+  - specialty
+  - attitude text
+  - previous allocation over shortlisted founders
+
+Checkpoint / history notes:
+
+- checkpoint group history stores:
+  - `step2_debate_rounds`
+  - `effective_step2_debate_rounds`
+  - `step2_subrounds`
+  - `per_investor_allocations`
+  - `per_investor_stances`
+- founder-facing feedback stores final step-2 stance summaries in `step2_final_stances`
+
+#### Current Config Fields Worth Knowing
+
+- `system.max_investment_rounds`: max number of investment rounds inside one major round
+- `system.max_allocation_retries`: retries when a step-2 allocation does not pass validation
+- `system.step2_debate_rounds`: total debate subround count, including the initial allocation subround
+- `investor_groups[].k_selection`: shortlist top-k founders before step-2 allocation
+- `investor_groups[].round1_max_workers`: optional thread cap for step-1 evaluation
+
 #### 默认配置与输出
 
 `main_10_founders.py` 当前默认导入：

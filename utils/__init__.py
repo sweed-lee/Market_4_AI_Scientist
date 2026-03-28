@@ -1,9 +1,9 @@
 """
 Utilities module.
 
-Provides LLM client wrapper for OpenAI-compatible APIs.
+Provides shared utility exports.
 """
 
 from .llm_client import LLMClient
 
-__all__ = ['LLMClient']
+__all__ = ["LLMClient"]

@@ -53,12 +53,17 @@ def create_agents_from_config(config: dict):
         # Group-local k selection (new system). Keep backward compatibility with older configs.
         k_selection = group_cfg.get("k_selection", config.get("system", {}).get("k_selection", None))
         round1_max_workers = group_cfg.get("round1_max_workers", None)
+        step2_debate_rounds = group_cfg.get(
+            "step2_debate_rounds",
+            config.get("system", {}).get("step2_debate_rounds", 0),
+        )
         investor_group = InvestorGroup(
             name=group_cfg["name"], 
             investors=investors,
             total_capital=total_capital,
             k_selection=k_selection,
             round1_max_workers=round1_max_workers,
+            step2_debate_rounds=step2_debate_rounds,
         )
         investor_groups.append(investor_group)
 
@@ -119,5 +124,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 

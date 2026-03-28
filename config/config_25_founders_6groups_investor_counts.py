@@ -109,6 +109,7 @@ CONFIG_25_FOUNDERS_6GROUPS_INVESTOR_COUNTS = {
         "budget_tolerance_percent": 0.2,
         "max_investment_rounds": 3,
         "max_allocation_retries": 3,
+        "step2_debate_rounds": 2,
         "enable_checkpoints": True,
         "checkpoint_dir": "checkpoints_investor_counts",
         "base_url": "http://35.220.164.252:3888/v1/",
@@ -140,4 +141,3 @@ CONFIG_25_FOUNDERS_6GROUPS_INVESTOR_COUNTS = {
     },
     "graph_mode": "sparse",
 }
-

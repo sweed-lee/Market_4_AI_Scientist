@@ -24,6 +24,7 @@ CONFIG_10_FOUNDERS = {
         "max_investment_rounds": 3,
         # Max retries for investor allocation when validation fails (e.g., total != budget)
         "max_allocation_retries": 3,
+        "step2_debate_rounds": 2,
         # === Checkpointing (optional) ===
         # Save two checkpoints per major round:
         # - founder_submitted: after founders submit, before investor evaluation
@@ -411,5 +412,4 @@ CONFIG_10_FOUNDERS = {
     },
     "graph_mode": "sparse",
 }
-
 

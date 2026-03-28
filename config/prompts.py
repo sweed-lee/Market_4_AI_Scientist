@@ -215,7 +215,7 @@ InvestmentAdvice: (3-6 sentences. Must include: (a) a brief summary of what the 
 [/OUTPUT]
 """
 
-INVESTOR_STEP2_ALLOCATION_PROMPT = """You are an Investor agent: a professional evaluator in an investment firm, responsible for allocating capital across multiple projects.
+INVESTOR_STEP2_INITIAL_ALLOCATION_PROMPT = """You are an Investor agent: a professional evaluator in an investment firm, responsible for allocating capital across multiple projects.
 You comprehensively balance risk and return, and you may favor more conservative, mainstream approaches or higher-risk, innovative proposals that could avoid competition and unlock potential returns.
 
 High-level note: {requirement}
@@ -226,7 +226,7 @@ Your investment philosophy: {philosophy}
 {investment_history}
 This history is for reference only, and past investment amounts will not carry over to this round.
 
-This is STEP 2 (allocation) in investment round {current_investment_round} of this major round.
+This is STEP 2 (initial allocation before intra-group discussion) in investment round {current_investment_round} of this major round.
 You have a budget of {budget} llm tokens to allocate across the selected candidates.
 
 Budget reference cases (token consumption examples):
@@ -234,7 +234,7 @@ Budget reference cases (token consumption examples):
 
 Key rules:
 1) Investment unit is llm tokens (computational resources), not money.
-2) Each project has a budget range: Budget ± {budget_tolerance_percent}% (lower/upper bounds are given below per candidate).
+2) Each project has a budget range: Budget +/- {budget_tolerance_percent}% (lower/upper bounds are given below per candidate).
 3) Allocation constraints:
    - Your total allocations must sum to exactly {budget}.
    - Each candidate must receive an allocation >= 0.
@@ -255,11 +255,80 @@ Key rules:
 Candidates:
 {candidates_list}
 
-**IMPORTANT: Use [THINKING], [/THINKING], [ALLOCATIONS], [/ALLOCATIONS] to mark the beginning and end of your answer. Format your response EXACTLY as follows:**
+Your task:
+1) Produce an allocation plan.
+2) Provide one short attitude statement (2-4 sentences) summarizing what you favor, what you are skeptical about, and why your allocation is shaped this way.
+
+**IMPORTANT: Use [THINKING], [/THINKING], [STANCE], [/STANCE], [ALLOCATIONS], [/ALLOCATIONS] to mark the beginning and end of your answer. Format your response EXACTLY as follows:**
 
 [THINKING]
 (Your internal analysis - this will NOT be shown to others)
 [/THINKING]
+
+[STANCE]
+(2-4 sentences. Briefly explain your current attitude and allocation logic.)
+[/STANCE]
+
+[ALLOCATIONS]
+Founder_A: XX.XX
+Founder_B: YY.YY
+...
+[/ALLOCATIONS]
+"""
+
+INVESTOR_STEP2_DEBATE_PROMPT = """You are an Investor agent: a professional evaluator in an investment firm, responsible for allocating capital across multiple projects.
+You comprehensively balance risk and return, and you may favor more conservative, mainstream approaches or higher-risk, innovative proposals that could avoid competition and unlock potential returns.
+
+High-level note: {requirement}
+
+Your evaluation criteria: {criteria}
+Your investment philosophy: {philosophy}
+
+{investment_history}
+This history is for reference only, and past investment amounts will not carry over to this round.
+
+This is STEP 2 debate round {debate_round_index} in investment round {current_investment_round} of this major round.
+You have a budget of {budget} llm tokens to allocate across the selected candidates.
+
+Budget reference cases (token consumption examples):
+{budget_reference_cases}
+
+You are now one member of an investor group and are coordinating with the other investors in your group to determine the final allocation for this investment round.
+
+Your previous view and the other investors' previous views are shown below. For your own previous view, it is explicitly marked as [THIS WAS YOUR PREVIOUS VIEW].
+
+Key rules:
+1) Investment unit is llm tokens (computational resources), not money.
+2) Each project has a budget range: Budget +/- {budget_tolerance_percent}% (lower/upper bounds are given below per candidate).
+3) Allocation constraints:
+   - Your total allocations must sum to exactly {budget}.
+   - Each candidate must receive an allocation >= 0.
+4) You are revising your previous view after reading your group peers' prior-round positions.
+5) Keep your reasoning consistent with your own specialty, but update if peers surfaced stronger evidence.
+
+Candidates:
+{candidates_list}
+
+Peer discussion context from the previous sub-round:
+{peer_discussion_context}
+
+{retry_hint}
+
+Your task:
+1) Reconsider your prior allocation after reading the peer discussion context.
+2) Use the discussion context to compare positions, identify agreement and disagreement, and both adjust your own strategy when warranted and articulate a position that could persuade the other investors in your group.
+3) Output a revised allocation plan.
+4) Provide one short attitude statement (2-4 sentences) that reflects your updated stance after discussion. This statement will be used in discussion with the other investors in your group.
+
+**IMPORTANT: Use [THINKING], [/THINKING], [STANCE], [/STANCE], [ALLOCATIONS], [/ALLOCATIONS] to mark the beginning and end of your answer. Format your response EXACTLY as follows:**
+
+[THINKING]
+(Your internal analysis - this will NOT be shown to others)
+[/THINKING]
+
+[STANCE]
+(2-4 sentences. Summarize how the discussion affected your position, how you are adjusting your strategy, and what message you want the other investors to hear. This text will be shown to the other investors in your group.)
+[/STANCE]
 
 [ALLOCATIONS]
 Founder_A: XX.XX
@@ -285,4 +354,3 @@ Path requirements:
 - Cannot contain ..
 - Should not include drive letters (e.g., C:)
 """
-

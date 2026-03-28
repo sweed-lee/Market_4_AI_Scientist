@@ -71,6 +71,7 @@ def build_checkpoint(
             "total_capital": getattr(g, "total_capital", None),
             "k_selection": getattr(g, "k_selection", None),
             "round1_max_workers": getattr(g, "round1_max_workers", None),
+            "step2_debate_rounds": getattr(g, "step2_debate_rounds", 0),
             "history": getattr(g, "history", []),
             "step1_cache": getattr(g, "step1_cache", {}),
             "investors": [
@@ -139,6 +140,10 @@ def _create_agents_from_config(config: Dict[str, Any]) -> Tuple[list[Founder], l
                 total_capital=group_cfg.get("total_capital", 100.0),
                 k_selection=group_cfg.get("k_selection", config.get("system", {}).get("k_selection")),
                 round1_max_workers=group_cfg.get("round1_max_workers"),
+                step2_debate_rounds=group_cfg.get(
+                    "step2_debate_rounds",
+                    config.get("system", {}).get("step2_debate_rounds", 0),
+                ),
             )
         )
 
@@ -184,6 +189,7 @@ def orchestrator_from_checkpoint(
             g.initial_capital = st["initial_capital"]
         g.k_selection = st.get("k_selection", g.k_selection)
         g.round1_max_workers = st.get("round1_max_workers", g.round1_max_workers)
+        g.step2_debate_rounds = st.get("step2_debate_rounds", g.step2_debate_rounds)
         g.history = st.get("history", []) or []
         g.step1_cache = st.get("step1_cache", {}) or {}
         # Note: per-investor histories are not critical for execution; keep as-is.
@@ -309,4 +315,3 @@ def resume_from_checkpoint(
         }
 
     raise ValueError(f"Unknown checkpoint kind: {kind}")
-
